@@ -1,0 +1,17 @@
+
+services:
+  inno-tree-db:
+    image: postgres
+    ports:
+      - 5432:5432
+    user: "root"
+    environment:
+      - POSTGRES_PASSWORD=12345abc
+      - POSTGRES_USER=postgres
+      - POSTGRES_DB=InnoTree
+    volumes:
+    - innotreedata:/var/lib/postgresql/data 
+    container_name: inno_tree_db
+
+volumes:
+  innotreedata:

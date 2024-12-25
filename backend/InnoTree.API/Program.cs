@@ -1,3 +1,8 @@
+using InnoTree.API.Extensions;
+using InnoTree.Infrastructure.Extensions;
+using InnoTree.Application.Extensions;
+using InnoTree.API.Middlewares;
+
 var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
@@ -7,7 +12,14 @@ builder.Services.AddControllers();
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 
+builder.Services.ConfigureDbContext(builder);
+builder.Services.ConfigureRepositories();
+builder.Services.ConfigureAutomapper();
+builder.Services.ConfigureUsecases();
+
 var app = builder.Build();
+
+app.UseMiddleware<ExceptionHandlerMiddleware>();
 
 // Configure the HTTP request pipeline.
 if (app.Environment.IsDevelopment())
