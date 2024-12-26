@@ -1,7 +1,7 @@
 using InnoTree.API.Extensions;
-using InnoTree.Infrastructure.Extensions;
-using InnoTree.Application.Extensions;
 using InnoTree.API.Middlewares;
+using InnoTree.Application.Extensions;
+using InnoTree.Infrastructure.Extensions;
 
 var builder = WebApplication.CreateBuilder(args);
 
