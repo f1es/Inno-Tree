@@ -1,7 +1,7 @@
 using InnoTree.API.Extensions;
-using InnoTree.API.Middlewares;
-using InnoTree.Application.Extensions;
 using InnoTree.Infrastructure.Extensions;
+using InnoTree.Application.Extensions;
+using InnoTree.API.Middlewares;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -16,7 +16,6 @@ builder.Services.ConfigureDbContext(builder);
 builder.Services.ConfigureRepositories();
 builder.Services.ConfigureAutomapper();
 builder.Services.ConfigureUsecases();
-builder.Services.ConfigureCors();
 
 var app = builder.Build();
 

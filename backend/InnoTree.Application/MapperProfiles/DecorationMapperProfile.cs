@@ -11,7 +11,6 @@ public class DecorationMapperProfile : Profile
     {
         CreateMap<DecorationRequestDto, Decoration>();
 
-        CreateMap<Decoration, DecorationResponseDto>()
-            .ForMember(dest => dest.DecorationId, opt => opt.MapFrom(src => src.Id));
-	}
+        CreateMap<Decoration, DecorationResponseDto>();
+    }
 }

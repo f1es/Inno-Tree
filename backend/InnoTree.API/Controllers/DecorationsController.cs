@@ -36,7 +36,7 @@ public class DecorationsController : ControllerBase
     {
         var respone = await _decorationUsecaseManager.CreateDecorationUsecase.CreateDecorationAsync(decorationRequestDto);
 
-        return CreatedAtRoute("DecorationById", new { id = respone.DecorationId }, respone);
+        return CreatedAtRoute("DecorationById", new { id = respone.Id }, respone);
     }
 
     [HttpDelete("{id:guid}")]
