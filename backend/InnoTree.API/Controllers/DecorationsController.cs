@@ -5,7 +5,7 @@ using Microsoft.AspNetCore.Mvc;
 namespace InnoTree.API.Controllers;
 
 [ApiController]
-[Route("decorations")]
+[Route("api/decorations")]
 public class DecorationsController : ControllerBase
 {
 	private readonly IDecorationUsecaseManager _decorationUsecaseManager;
