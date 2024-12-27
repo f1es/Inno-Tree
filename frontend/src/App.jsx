@@ -13,7 +13,7 @@ function App() {
   const [editId, setEditId] = useState("");
   const [initialValues, setInitialValues] = useState({});
 
-  const [domain, setDomain] = useState("localhost:5000");
+  const [url, setUrl] = useState("https://3c10-46-53-216-35.ngrok-free.app");
 
   useEffect(() => {
     fetchDecorations();
@@ -21,21 +21,23 @@ function App() {
 
   const fetchDecoration = async (decorationId) => {
     const response = await axios.get(
-      `http://${domain}/api/decorations/${decorationId}`
+      `${url}/api/decorations/${decorationId}`
     );
 
     return response.data;
   };
 
   const fetchDecorations = () => {
-    axios.get(`http://${domain}/api/decorations`).then((response) => {
+    axios.get(`${url}/api/decorations`, {headers:{
+      'ngrok-skip-browser-warning': '1',
+    }}).then((response) => {
       setDecorations(response.data);
     });
   };
 
   const deleteDecoration = (decorationId) => {
     axios
-      .delete(`http://${domain}/api/decorations/${decorationId}`)
+      .delete(`${url}/api/decorations/${decorationId}`)
       .then((response) => {
         fetchDecorations();
       });
@@ -43,7 +45,7 @@ function App() {
 
   const createDecoration = (author, message, type, x, y) => {
     axios
-      .post(`http://${domain}/api/decorations`, {
+      .post(`${url}/api/decorations`, {
         author: author,
         message: message,
         type: type,
@@ -57,7 +59,7 @@ function App() {
 
   const updateDecoration = (decorationId, author, message, type, x, y) => {
     axios
-      .put(`http://${domain}/api/decorations/${decorationId}`, {
+      .put(`${url}/api/decorations/${decorationId}`, {
         author: author,
         message: message,
         type: type,
