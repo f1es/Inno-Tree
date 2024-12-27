@@ -3,11 +3,11 @@ import { Form, Input, Button, Radio, Image, Flex } from "antd";
 import { noop } from "antd/es/_util/warning";
 const { TextArea } = Input;
 
-function DecorationForm({ onSubmit }) {
+function DecorationForm({ handleSubmit }) {
   const [form] = Form.useForm();
 
   const handleFinish = (values) => {
-    onSubmit(values);
+    handleSubmit(values);
     form.resetFields();
   };
 

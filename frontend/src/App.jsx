@@ -9,6 +9,9 @@ function App() {
   const [decorations, setDecorations] = useState([]);
   const [coordinates, setCoordinates] = useState({ x: 0, y: 0 });
 
+  const [isEdit, setIsEdit] = useState(false);
+  const [editId, setEditId] = useState("");
+
   useEffect(() => {
     fetchDecorations();
   }, []);
@@ -19,7 +22,7 @@ function App() {
     });
   };
 
-  const deleteDecoration = async (decorationId) => {
+  const deleteDecoration = (decorationId) => {
     axios
       .delete(`http://localhost:5000/api/decorations/${decorationId}`)
       .then((response) => {
@@ -41,25 +44,59 @@ function App() {
       });
   };
 
+  const updateDecoration = (decorationId, author, message, type, x, y) => {
+    axios
+      .put(`http://localhost:5000/api/decorations/${decorationId}`, {
+        author: author,
+        message: message,
+        type: type,
+        x: x,
+        y: y,
+      })
+      .then((response) => {
+        fetchDecorations();
+      });
+  };
+
   const handleClick = (event) => {
-    if (!isModalVisible)
-      setCoordinates({ x: event.clientX - 50, y: event.clientY - 50 });
+    if (isModalVisible) return;
+
+    setCoordinates({ x: event.clientX - 50, y: event.clientY - 50 });
+
+    setIsEdit(false);
+
+    showModal();
+  };
+
+  const handleUpdate = (decorationId) => {
+    if (isModalVisible) return;
+
+    setIsEdit(true);
+    setEditId(decorationId);
+
     showModal();
   };
 
   const handleSubmit = (values) => {
-    createDecoration(
-      values.author,
-      values.message,
-      values.type,
-      coordinates.x,
-      coordinates.y
-    );
+    if (isEdit) {
+      updateDecoration(
+        editId,
+        values.author,
+        values.message,
+        values.type,
+        coordinates.x,
+        coordinates.y
+      );
+    } else {
+      createDecoration(
+        values.author,
+        values.message,
+        values.type,
+        coordinates.x,
+        coordinates.y
+      );
+    }
 
-    setDecorations([
-      ...decorations,
-      { ...coordinates, ...values, id: decorations.length },
-    ]);
     setIsModalVisible(false);
   };
 
@@ -91,6 +128,7 @@ function App() {
           message={component.message}
           type={component.type}
           handleDelete={deleteDecoration}
+          handleUpdate={handleUpdate}
         />
       ))}
       <Modal
@@ -99,7 +137,7 @@ function App() {
         onCancel={handleCancel}
         footer={null}
       >
-        <DecorationForm onSubmit={handleSubmit} />
+        <DecorationForm handleSubmit={handleSubmit} />
       </Modal>
     </div>
   );

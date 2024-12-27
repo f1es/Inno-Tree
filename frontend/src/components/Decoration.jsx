@@ -9,6 +9,7 @@ function Decoration({
   message,
   type,
   handleDelete,
+  handleUpdate,
 }) {
   const pictures = {
     "red-ball": "public\\red-ball.png",
@@ -41,19 +42,24 @@ function Decoration({
           <div style={contentStyle}>
             <Flex vertical gap={12}>
               <p>{message}</p>
-              <Button
-                style={{
-                  height: "30px",
-                  width: "60px",
-                  verticalAlign: "right",
-                }}
-                onClick={(event) => {
-                  event.stopPropagation();
-                  handleDelete(decorationId);
-                }}
-              >
-                <p>Delete</p>
-              </Button>
+              <Flex gap={6}>
+                <Button
+                  onClick={(event) => {
+                    event.stopPropagation();
+                    handleDelete(decorationId);
+                  }}
+                >
+                  <p>Delete</p>
+                </Button>
+                <Button
+                  onClick={(event) => {
+                    event.stopPropagation();
+                    handleUpdate(decorationId);
+                  }}
+                >
+                  <p>Edit</p>
+                </Button>
+              </Flex>
             </Flex>
           </div>
         }
