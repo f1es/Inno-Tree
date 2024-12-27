@@ -11,20 +11,31 @@ function App() {
 
   const [isEdit, setIsEdit] = useState(false);
   const [editId, setEditId] = useState("");
+  const [initialValues, setInitialValues] = useState({});
+
+  const [domain, setDomain] = useState("localhost:5000");
 
   useEffect(() => {
     fetchDecorations();
   }, []);
 
+  const fetchDecoration = async (decorationId) => {
+    const response = await axios.get(
+      `http://${domain}/api/decorations/${decorationId}`
+    );
+
+    return response.data;
+  };
+
   const fetchDecorations = () => {
-    axios.get("http://localhost:5000/api/decorations").then((response) => {
+    axios.get(`http://${domain}/api/decorations`).then((response) => {
       setDecorations(response.data);
     });
   };
 
   const deleteDecoration = (decorationId) => {
     axios
-      .delete(`http://localhost:5000/api/decorations/${decorationId}`)
+      .delete(`http://${domain}/api/decorations/${decorationId}`)
       .then((response) => {
         fetchDecorations();
       });
@@ -32,7 +43,7 @@ function App() {
 
   const createDecoration = (author, message, type, x, y) => {
     axios
-      .post("http://localhost:5000/api/decorations", {
+      .post(`http://${domain}/api/decorations`, {
         author: author,
         message: message,
         type: type,
@@ -46,7 +57,7 @@ function App() {
 
   const updateDecoration = (decorationId, author, message, type, x, y) => {
     axios
-      .put(`http://localhost:5000/api/decorations/${decorationId}`, {
+      .put(`http://${domain}/api/decorations/${decorationId}`, {
         author: author,
         message: message,
         type: type,
@@ -58,34 +69,42 @@ function App() {
       });
   };
 
-  const handleClick = (event) => {
+  const handleMouseClick = (event) => {
     if (isModalVisible) return;
 
     setCoordinates({ x: event.clientX - 50, y: event.clientY - 50 });
 
     setIsEdit(false);
+    setInitialValues({});
 
     showModal();
   };
 
-  const handleUpdate = (decorationId) => {
+  const handleDecorationUpdate = (decorationId) => {
     if (isModalVisible) return;
 
     setIsEdit(true);
     setEditId(decorationId);
 
+    const decorationToEdit = decorations.find(
+      (decoration) => decoration.id == decorationId
+    );
+    setInitialValues(decorationToEdit);
+
     showModal();
   };
 
-  const handleSubmit = (values) => {
+  const handleSubmit = async (values) => {
     if (isEdit) {
+      const decoration = await fetchDecoration(editId);
+
       updateDecoration(
         editId,
         values.author,
         values.message,
         values.type,
-        coordinates.x,
-        coordinates.y
+        decoration.x,
+        decoration.y
       );
     } else {
       createDecoration(
@@ -107,11 +126,12 @@ function App() {
 
   const handleCancel = () => {
     setIsModalVisible(false);
+    setInitialValues({});
   };
 
   return (
     <div
-      onClick={handleClick}
+      onClick={handleMouseClick}
       style={{
         height: "90vh",
         width: "95vw",
@@ -128,16 +148,20 @@ function App() {
           message={component.message}
           type={component.type}
           handleDelete={deleteDecoration}
-          handleUpdate={handleUpdate}
+          handleUpdate={handleDecorationUpdate}
         />
       ))}
       <Modal
-        title="Leave your message"
+        title="Write your message"
         open={isModalVisible}
         onCancel={handleCancel}
         footer={null}
       >
-        <DecorationForm handleSubmit={handleSubmit} />
+        <DecorationForm
+          handleSubmit={handleSubmit}
+          initialValues={initialValues}
+          isEdit={isEdit}
+        />
       </Modal>
     </div>
   );

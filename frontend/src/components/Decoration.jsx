@@ -1,5 +1,4 @@
 import { Popover, Image, Button, Flex } from "antd";
-import axios from "axios";
 
 function Decoration({
   decorationId,
@@ -12,10 +11,10 @@ function Decoration({
   handleUpdate,
 }) {
   const pictures = {
-    "red-ball": "public\\red-ball.png",
-    "blue-ball": "public\\blue-ball.png",
-    bell: "public\\bell.png",
-    wreath: "public\\wreath.png",
+    "red-ball": "\\red-ball.png",
+    "blue-ball": "\\blue-ball.png",
+    bell: "\\bell.png",
+    wreath: "\\wreath.png",
   };
 
   const contentStyle = {

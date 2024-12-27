@@ -1,15 +1,22 @@
-import React from "react";
+import React, { useEffect } from "react";
 import { Form, Input, Button, Radio, Image, Flex } from "antd";
-import { noop } from "antd/es/_util/warning";
 const { TextArea } = Input;
 
-function DecorationForm({ handleSubmit }) {
+function DecorationForm({ handleSubmit, initialValues, isEdit }) {
   const [form] = Form.useForm();
 
   const handleFinish = (values) => {
     handleSubmit(values);
     form.resetFields();
   };
+
+  useEffect(() => {
+    if (isEdit) {
+      form.setFieldsValue(initialValues);
+    } else {
+      form.resetFields();
+    }
+  }, [isEdit, initialValues, form]);
 
   return (
     <Form form={form} onFinish={handleFinish} layout="vertical">
