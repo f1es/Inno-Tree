@@ -13,34 +13,34 @@ function App() {
   const [editId, setEditId] = useState("");
   const [initialValues, setInitialValues] = useState({});
 
-  const [url, setUrl] = useState("https://3c10-46-53-216-35.ngrok-free.app");
+  const [url, setUrl] = useState("http://localhost:5000");
 
   useEffect(() => {
     fetchDecorations();
   }, []);
 
   const fetchDecoration = async (decorationId) => {
-    const response = await axios.get(
-      `${url}/api/decorations/${decorationId}`
-    );
+    const response = await axios.get(`${url}/api/decorations/${decorationId}`);
 
     return response.data;
   };
 
   const fetchDecorations = () => {
-    axios.get(`${url}/api/decorations`, {headers:{
-      'ngrok-skip-browser-warning': '1',
-    }}).then((response) => {
-      setDecorations(response.data);
-    });
+    axios
+      .get(`${url}/api/decorations`, {
+        headers: {
+          "ngrok-skip-browser-warning": "1",
+        },
+      })
+      .then((response) => {
+        setDecorations(response.data);
+      });
   };
 
   const deleteDecoration = (decorationId) => {
-    axios
-      .delete(`${url}/api/decorations/${decorationId}`)
-      .then((response) => {
-        fetchDecorations();
-      });
+    axios.delete(`${url}/api/decorations/${decorationId}`).then((response) => {
+      fetchDecorations();
+    });
   };
 
   const createDecoration = (author, message, type, x, y) => {
@@ -138,6 +138,9 @@ function App() {
         height: "90vh",
         width: "95vw",
         position: "relative",
+        display: "grid",
+        flexWrap: "wrap",
+        justifyContent: "space-between",
       }}
     >
       {decorations.map((component) => (

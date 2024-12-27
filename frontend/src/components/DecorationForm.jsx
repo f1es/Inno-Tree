@@ -59,7 +59,7 @@ function DecorationForm({ handleSubmit, initialValues, isEdit }) {
               <Image
                 width={75}
                 height={75}
-                src="red-ball.png"
+                src="red-ball.webp"
                 preview={false}
               />
             </Radio.Button>
@@ -68,17 +68,17 @@ function DecorationForm({ handleSubmit, initialValues, isEdit }) {
               <Image
                 width={75}
                 height={75}
-                src="blue-ball.png"
+                src="blue-ball.webp"
                 preview={false}
               />
             </Radio.Button>
 
             <Radio.Button value="bell" style={{ height: "80px" }}>
-              <Image width={75} height={75} src="bell.png" preview={false} />
+              <Image width={75} height={75} src="bell.webp" preview={false} />
             </Radio.Button>
 
             <Radio.Button value="wreath" style={{ height: "80px" }}>
-              <Image width={75} height={75} src="wreath.png" preview={false} />
+              <Image width={75} height={75} src="wreath.webp" preview={false} />
             </Radio.Button>
           </Radio.Group>
         </Flex>

@@ -11,10 +11,10 @@ function Decoration({
   handleUpdate,
 }) {
   const pictures = {
-    "red-ball": "\\red-ball.png",
-    "blue-ball": "\\blue-ball.png",
-    bell: "\\bell.png",
-    wreath: "\\wreath.png",
+    "red-ball": "\\red-ball.webp",
+    "blue-ball": "\\blue-ball.webp",
+    bell: "\\bell.webp",
+    wreath: "\\wreath.webp",
   };
 
   const contentStyle = {
