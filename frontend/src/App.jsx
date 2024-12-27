@@ -84,7 +84,7 @@ function App() {
       {decorations.map((component) => (
         <Decoration
           decorationId={component.id}
-          key={component.decorationId}
+          key={component.id}
           x={component.x}
           y={component.y}
           author={component.author}
