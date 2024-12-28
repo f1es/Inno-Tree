@@ -138,7 +138,7 @@ function App() {
       </div>
       <div>
         <img
-          src={"christmas-tree.png"}
+          src={"christmas-tree.webp"}
           style={{
             position: "absolute",
             height: "90vh",
