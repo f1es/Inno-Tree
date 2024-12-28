@@ -9,6 +9,7 @@ function Decoration({
   type,
   handleDelete,
   handleUpdate,
+  refreshDecorations,
 }) {
   const pictures = {
     "red-ball": "\\red-ball.webp",
@@ -43,9 +44,10 @@ function Decoration({
               <p>{message}</p>
               <Flex gap={6}>
                 <Button
-                  onClick={(event) => {
+                  onClick={async (event) => {
                     event.stopPropagation();
-                    handleDelete(decorationId);
+                    await handleDelete(decorationId);
+                    await refreshDecorations();
                   }}
                 >
                   <p>Delete</p>

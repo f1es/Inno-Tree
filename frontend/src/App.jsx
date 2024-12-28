@@ -1,8 +1,15 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useState, useRef } from "react";
 import { Modal, Image, Typography } from "antd";
 import Decoration from "./components/decoration.jsx";
 import DecorationForm from "./components/DecorationForm.jsx";
-import axios from "axios";
+import {
+  fetchDecoration,
+  fetchDecorations,
+  createDecoration,
+  deleteDecoration,
+  updateDecoration,
+} from "./ApiRequests.js";
+import confetti from "canvas-confetti";
 
 function App() {
   const [isModalVisible, setIsModalVisible] = useState(false);
@@ -13,62 +20,30 @@ function App() {
   const [editId, setEditId] = useState("");
   const [initialValues, setInitialValues] = useState({});
 
-  const [url, setUrl] = useState("http://localhost:5000");
+  const intervalRef = useRef(null);
 
   useEffect(() => {
-    fetchDecorations();
+    refreshDecorations();
+
+    intervalRef.current = setInterval(() => {
+      launchConfetti(0.2, 0.5);
+      launchConfetti(0.8, 0.5);
+    }, 2500);
+
+    return () => clearInterval(intervalRef.current);
   }, []);
 
-  const fetchDecoration = async (decorationId) => {
-    const response = await axios.get(`${url}/api/decorations/${decorationId}`);
-
-    return response.data;
-  };
-
-  const fetchDecorations = () => {
-    axios
-      .get(`${url}/api/decorations`, {
-        headers: {
-          "ngrok-skip-browser-warning": "1",
-        },
-      })
-      .then((response) => {
-        setDecorations(response.data);
-      });
-  };
-
-  const deleteDecoration = (decorationId) => {
-    axios.delete(`${url}/api/decorations/${decorationId}`).then((response) => {
-      fetchDecorations();
+  const launchConfetti = (x, y) => {
+    confetti({
+      particleCount: 100,
+      spread: 70,
+      origin: { x: x, y: y },
     });
   };
 
-  const createDecoration = (author, message, type, x, y) => {
-    axios
-      .post(`${url}/api/decorations`, {
-        author: author,
-        message: message,
-        type: type,
-        x: x,
-        y: y,
-      })
-      .then((response) => {
-        fetchDecorations();
-      });
-  };
-
-  const updateDecoration = (decorationId, author, message, type, x, y) => {
-    axios
-      .put(`${url}/api/decorations/${decorationId}`, {
-        author: author,
-        message: message,
-        type: type,
-        x: x,
-        y: y,
-      })
-      .then((response) => {
-        fetchDecorations();
-      });
+  const refreshDecorations = async () => {
+    const data = await fetchDecorations();
+    setDecorations(data);
   };
 
   const handleMouseClick = (event) => {
@@ -106,7 +81,7 @@ function App() {
     if (isEdit) {
       const decoration = await fetchDecoration(editId);
 
-      updateDecoration(
+      await updateDecoration(
         editId,
         values.author,
         values.message,
@@ -115,7 +90,7 @@ function App() {
         decoration.y
       );
     } else {
-      createDecoration(
+      await createDecoration(
         values.author,
         values.message,
         values.type,
@@ -124,6 +99,7 @@ function App() {
       );
     }
 
+    await refreshDecorations();
     setIsModalVisible(false);
   };
 
@@ -184,6 +160,7 @@ function App() {
           type={component.type}
           handleDelete={deleteDecoration}
           handleUpdate={handleDecorationUpdate}
+          refreshDecorations={refreshDecorations}
         />
       ))}
       <Modal
