@@ -1,5 +1,11 @@
-﻿using InnoTree.Application.Usecases.Decorations.Interfaces;
+﻿using InnoTree.Application.Usecases.Decorations.Commands.CreateDecoration;
+using InnoTree.Application.Usecases.Decorations.Commands.DeleteDecoration;
+using InnoTree.Application.Usecases.Decorations.Commands.UpdateDecoration;
+using InnoTree.Application.Usecases.Decorations.Interfaces;
+using InnoTree.Application.Usecases.Decorations.Queries.GetDecoration;
+using InnoTree.Application.Usecases.Decorations.Queries.GetDecorations;
 using InnoTree.Core.Dto.Request;
+using MediatR;
 using Microsoft.AspNetCore.Mvc;
 
 namespace InnoTree.API.Controllers;
@@ -8,17 +14,20 @@ namespace InnoTree.API.Controllers;
 [Route("api/decorations")]
 public class DecorationsController : ControllerBase
 {
+    private readonly IMediator _mediator;
 	private readonly IDecorationUsecaseManager _decorationUsecaseManager;
 
-    public DecorationsController(IDecorationUsecaseManager decorationUsecaseManager)
+    public DecorationsController(IDecorationUsecaseManager decorationUsecaseManager, IMediator mediator)
     {
         _decorationUsecaseManager = decorationUsecaseManager;
+        _mediator = mediator;
     }
 
     [HttpGet]
 	public async Task<IActionResult> GetAll()
 	{
-        var response = await _decorationUsecaseManager.GetAllDecorationsUsecase.GetAllDecorationsAsync();
+        var getAllQuery = new GetDecorationsQuery();
+        var response = await _mediator.Send(getAllQuery);
 
         return Ok(response);
 	}
@@ -26,7 +35,8 @@ public class DecorationsController : ControllerBase
     [HttpGet("{id:guid}", Name = "DecorationById")]
     public async Task<IActionResult> GetById(Guid id)
     {
-        var response = await _decorationUsecaseManager.GetDecorationByIdUsecase.GetByIdAsync(id);
+        var getByIdQuery = new GetDecorationQuery(id);
+        var response = await _mediator.Send(getByIdQuery);
 
         return Ok(response);
     }
@@ -34,15 +44,17 @@ public class DecorationsController : ControllerBase
     [HttpPost]
     public async Task<IActionResult> Create(DecorationRequestDto decorationRequestDto)
     {
-        var respone = await _decorationUsecaseManager.CreateDecorationUsecase.CreateDecorationAsync(decorationRequestDto);
+        var createDecorationCommand = new CreateDecorationCommand(decorationRequestDto);
+        var response = await _mediator.Send(createDecorationCommand);
 
-        return CreatedAtRoute("DecorationById", new { id = respone.Id }, respone);
+        return CreatedAtRoute("DecorationById", new { id = response.Id }, response);
     }
 
     [HttpDelete("{id:guid}")]
     public async Task<IActionResult> Delete(Guid id)
     {
-        await _decorationUsecaseManager.DeleteDecorationUsecase.DeleteDecorationAsync(id);
+        var deleteDecorationCommand = new DeleteDecorationCommand(id);
+        await _mediator.Send(deleteDecorationCommand);
 
         return NoContent();
     }
@@ -50,7 +62,8 @@ public class DecorationsController : ControllerBase
     [HttpPut("{id:guid}")]
     public async Task<IActionResult> Update(Guid id, DecorationRequestDto decorationRequestDto)
     {
-        await _decorationUsecaseManager.UpdateDecorationUsecase.UpdateDecorationAsync(id, decorationRequestDto);
+        var updateDecorationCommand = new UpdateDecorationCommand(id, decorationRequestDto);
+        await _mediator.Send(updateDecorationCommand);
 
         return NoContent();
     }
