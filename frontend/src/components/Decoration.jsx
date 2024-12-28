@@ -30,8 +30,8 @@ function Decoration({
 
   const positionStyle = {
     position: "absolute",
-    left: `${x}px`,
-    top: `${y}px`,
+    left: `${x}vw`,
+    top: `${y}vh`,
   };
 
   return (

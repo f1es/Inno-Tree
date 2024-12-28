@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import { Modal } from "antd";
+import { Modal, Image, Typography } from "antd";
 import Decoration from "./components/decoration.jsx";
 import DecorationForm from "./components/DecorationForm.jsx";
 import axios from "axios";
@@ -74,7 +74,13 @@ function App() {
   const handleMouseClick = (event) => {
     if (isModalVisible) return;
 
-    setCoordinates({ x: event.clientX - 50, y: event.clientY - 50 });
+    const xPx = event.clientX - 50;
+    const yPx = event.clientY - 5;
+
+    const xVw = Math.round((xPx / window.innerWidth) * 100);
+    const yVh = Math.round((yPx / window.innerHeight) * 100);
+
+    setCoordinates({ x: xVw, y: yVh });
 
     setIsEdit(false);
     setInitialValues({});
@@ -137,12 +143,36 @@ function App() {
       style={{
         height: "90vh",
         width: "95vw",
-        position: "relative",
-        display: "grid",
-        flexWrap: "wrap",
-        justifyContent: "space-between",
       }}
     >
+      <div>
+        <Typography.Title
+          style={{
+            color: "red",
+            position: "absolute",
+            marginTop: "90vh",
+            marginLeft: "1vw",
+            fontSize: "7.5vh",
+            fontWeight: "700",
+            opacity: "75%",
+          }}
+        >
+          Inno Christmas Tree
+        </Typography.Title>
+      </div>
+      <div>
+        <img
+          src={"christmas-tree.png"}
+          style={{
+            position: "absolute",
+            height: "90vh",
+            marginTop: "5vh",
+            marginLeft: "32vw",
+            marginRight: "auto",
+          }}
+        ></img>
+      </div>
+
       {decorations.map((component) => (
         <Decoration
           decorationId={component.id}
