@@ -1,7 +1,6 @@
 ﻿using InnoTree.Application.Usecases.Decorations.Commands.CreateDecoration;
 using InnoTree.Application.Usecases.Decorations.Commands.DeleteDecoration;
 using InnoTree.Application.Usecases.Decorations.Commands.UpdateDecoration;
-using InnoTree.Application.Usecases.Decorations.Interfaces;
 using InnoTree.Application.Usecases.Decorations.Queries.GetDecoration;
 using InnoTree.Application.Usecases.Decorations.Queries.GetDecorations;
 using InnoTree.Core.Dto.Request;
@@ -15,11 +14,9 @@ namespace InnoTree.API.Controllers;
 public class DecorationsController : ControllerBase
 {
     private readonly IMediator _mediator;
-	private readonly IDecorationUsecaseManager _decorationUsecaseManager;
 
-    public DecorationsController(IDecorationUsecaseManager decorationUsecaseManager, IMediator mediator)
+    public DecorationsController(IMediator mediator)
     {
-        _decorationUsecaseManager = decorationUsecaseManager;
         _mediator = mediator;
     }
 

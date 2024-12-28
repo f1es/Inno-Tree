@@ -1,6 +1,4 @@
 ﻿using InnoTree.Application.MapperProfiles;
-using InnoTree.Application.Usecases.Decorations.Implementations;
-using InnoTree.Application.Usecases.Decorations.Interfaces;
 using Microsoft.Extensions.DependencyInjection;
 using System.Reflection;
 
@@ -14,11 +12,6 @@ public static class DependencyInjection
 		{
 			options.AddProfile<DecorationMapperProfile>();
 		});
-	}
-
-	public static void ConfigureUsecases(this IServiceCollection services)
-	{
-		services.AddScoped<IDecorationUsecaseManager, DecorationUsecaseManager>();
 	}
 
 	public static void ConfigureMediatr(this IServiceCollection services)
