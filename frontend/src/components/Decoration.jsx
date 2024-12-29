@@ -12,10 +12,10 @@ function Decoration({
   refreshDecorations,
 }) {
   const pictures = {
-    "red-ball": "\\red-ball.webp",
-    "blue-ball": "\\blue-ball.webp",
-    bell: "\\bell.webp",
-    wreath: "\\wreath.webp",
+    "red-ball": "red-ball.webp",
+    "blue-ball": "blue-ball.webp",
+    bell: "bell.webp",
+    wreath: "wreath.webp",
   };
 
   const contentStyle = {
