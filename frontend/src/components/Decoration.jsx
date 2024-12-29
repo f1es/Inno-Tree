@@ -9,12 +9,13 @@ function Decoration({
   type,
   handleDelete,
   handleUpdate,
+  refreshDecorations,
 }) {
   const pictures = {
-    "red-ball": "\\red-ball.webp",
-    "blue-ball": "\\blue-ball.webp",
-    bell: "\\bell.webp",
-    wreath: "\\wreath.webp",
+    "red-ball": "red-ball.webp",
+    "blue-ball": "blue-ball.webp",
+    bell: "bell.webp",
+    wreath: "wreath.webp",
   };
 
   const contentStyle = {
@@ -30,8 +31,8 @@ function Decoration({
 
   const positionStyle = {
     position: "absolute",
-    left: `${x}px`,
-    top: `${y}px`,
+    left: `${x}vw`,
+    top: `${y}vh`,
   };
 
   return (
@@ -43,9 +44,10 @@ function Decoration({
               <p>{message}</p>
               <Flex gap={6}>
                 <Button
-                  onClick={(event) => {
+                  onClick={async (event) => {
                     event.stopPropagation();
-                    handleDelete(decorationId);
+                    await handleDelete(decorationId);
+                    await refreshDecorations();
                   }}
                 >
                   <p>Delete</p>

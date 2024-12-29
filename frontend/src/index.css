@@ -1,14 +1,15 @@
-@tailwind base;
-@tailwind components;
-@tailwind utilities;
+@import "tailwindcss/base";
+@import "tailwindcss/components";
+@import "tailwindcss/utilities";
 
 :root {
   font-family: Inter, system-ui, Avenir, Helvetica, Arial, sans-serif;
   line-height: 1.5;
   font-weight: 400;
   position: relative;
-  background-image: url("background.jpg");
-  background-size: auto;
+  background-size: 100% 100%;
+  background-image: url("../public/main-background.webp");
+  background-size: cover;
   background-position: top left;
   background-repeat: no-repeat;
   height: 100vh;
