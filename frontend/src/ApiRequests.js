@@ -2,17 +2,21 @@ import axios from "axios";
 
 const URL = "http://localhost:5000";
 
+const HEADERS = {
+  "ngrok-skip-browser-warning": "1",
+};
+
 export const fetchDecoration = async (decorationId) => {
-  const response = await axios.get(`${URL}/api/decorations/${decorationId}`);
+  const response = await axios.get(`${URL}/api/decorations/${decorationId}`, {
+    headers: HEADERS,
+  });
 
   return response.data;
 };
 
 export const fetchDecorations = async () => {
   const response = await axios.get(`${URL}/api/decorations`, {
-    headers: {
-      "ngrok-skip-browser-warning": "1",
-    },
+    headers: HEADERS,
   });
 
   return response.data;
