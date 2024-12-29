@@ -43,6 +43,7 @@ public class ExceptionHandlerMiddleware
 		exception switch
 		{
 			NotFoundException => HttpStatusCode.NotFound,
+			BadRequestException => HttpStatusCode.BadRequest,
 			_ => HttpStatusCode.InternalServerError
 		};
 }

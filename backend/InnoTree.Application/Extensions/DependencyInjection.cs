@@ -1,4 +1,6 @@
-﻿using InnoTree.Application.MapperProfiles;
+﻿using FluentValidation;
+using InnoTree.Application.MapperProfiles;
+using InnoTree.Application.MediatR.PipelineBehaviors;
 using Microsoft.Extensions.DependencyInjection;
 using System.Reflection;
 
@@ -19,6 +21,13 @@ public static class DependencyInjection
 		services.AddMediatR(config =>
 		{
 			config.RegisterServicesFromAssembly(Assembly.GetExecutingAssembly());
+
+			config.AddOpenBehavior(typeof(ValidationBehavior<,>));
 		});
+	}
+
+	public static void ConfigureValidators(this IServiceCollection services)
+	{
+		services.AddValidatorsFromAssembly(Assembly.GetExecutingAssembly());
 	}
 }
