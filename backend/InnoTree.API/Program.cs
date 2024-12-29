@@ -15,6 +15,7 @@ builder.Services.AddSwaggerGen();
 builder.Services.ConfigureDbContext(builder);
 builder.Services.ConfigureRepositories();
 builder.Services.ConfigureAutomapper();
+builder.Services.ConfigureValidators();
 builder.Services.ConfigureMediatr();
 builder.Services.ConfigureCors();
 
