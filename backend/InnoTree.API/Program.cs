@@ -2,6 +2,8 @@ using InnoTree.API.Extensions;
 using InnoTree.Infrastructure.Extensions;
 using InnoTree.Application.Extensions;
 using InnoTree.API.Middlewares;
+using FastEndpoints;
+using FastEndpoints.Swagger;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -18,6 +20,7 @@ builder.Services.ConfigureAutomapper();
 builder.Services.ConfigureValidators();
 builder.Services.ConfigureMediatr();
 builder.Services.ConfigureCors();
+builder.Services.ConfigureFastEndpoints();
 
 var app = builder.Build();
 
@@ -26,8 +29,8 @@ app.UseMiddleware<ExceptionHandlerMiddleware>();
 // Configure the HTTP request pipeline.
 //if (app.Environment.IsDevelopment())
 //{
-app.UseSwagger();
-app.UseSwaggerUI();
+//app.UseSwagger();
+//app.UseSwaggerUI();
 //}
 
 app.UseCors("CorsPolicy");
@@ -37,5 +40,7 @@ app.UseHttpsRedirection();
 app.UseAuthorization();
 
 app.MapControllers();
+app.UseFastEndpoints()
+	.UseSwaggerGen();
 
 app.Run();

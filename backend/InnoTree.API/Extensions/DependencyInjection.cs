@@ -1,4 +1,6 @@
-﻿using InnoTree.Infrastructure.Context;
+﻿using FastEndpoints;
+using FastEndpoints.Swagger;
+using InnoTree.Infrastructure.Context;
 using Microsoft.EntityFrameworkCore;
 
 namespace InnoTree.API.Extensions;
@@ -22,5 +24,11 @@ public static class DependencyInjection
 			.AllowAnyMethod()
 			.AllowAnyHeader());
 		});
+	}
+
+	public static void ConfigureFastEndpoints(this IServiceCollection services)
+	{
+		services.AddFastEndpoints()
+			.SwaggerDocument();
 	}
 }
