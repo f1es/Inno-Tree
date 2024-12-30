@@ -32,7 +32,6 @@ app.UseHttpsRedirection();
 
 app.UseAuthorization();
 
-app.MapControllers();
 app.UseFastEndpoints()
 	.UseSwaggerGen();
 
