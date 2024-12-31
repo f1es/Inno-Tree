@@ -1,4 +1,5 @@
 import { Popover, Image, Button, Flex } from "antd";
+import { useEffect, useState } from "react";
 
 function Decoration({
   decorationId,
@@ -10,7 +11,14 @@ function Decoration({
   handleDelete,
   handleUpdate,
   refreshDecorations,
+  clickEvent,
 }) {
+  const [isPopoverVisible, setIsPopOverVisible] = useState(false);
+
+  useEffect(() => {
+    setIsPopOverVisible(false);
+  }, [clickEvent]);
+
   const pictures = {
     "red-ball": "red-ball.webp",
     "blue-ball": "blue-ball.webp",
@@ -33,11 +41,24 @@ function Decoration({
     position: "absolute",
     left: `${x}vw`,
     top: `${y}vh`,
+    width: "auto",
+    height: "auto",
   };
 
   return (
-    <div style={positionStyle}>
+    <div
+      style={positionStyle}
+      onClick={(event) => {
+        event.stopPropagation();
+      }}
+    >
       <Popover
+        open={isPopoverVisible}
+        trigger={"click"}
+        onClick={(event) => {
+          event.stopPropagation();
+          setIsPopOverVisible(!isPopoverVisible);
+        }}
         content={
           <div style={contentStyle}>
             <Flex vertical gap={12}>
@@ -56,6 +77,7 @@ function Decoration({
                   onClick={(event) => {
                     event.stopPropagation();
                     handleUpdate(decorationId);
+                    setIsPopOverVisible(false);
                   }}
                 >
                   <p>Edit</p>
