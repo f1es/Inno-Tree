@@ -161,6 +161,7 @@ function App() {
           handleDelete={deleteDecoration}
           handleUpdate={handleDecorationUpdate}
           refreshDecorations={refreshDecorations}
+          clickEvent={handleMouseClick}
         />
       ))}
       <Modal
